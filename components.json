@@ -1,0 +1,17 @@
+{
+  "$schema": "https://ui.shadcn.com/schema.json",
+  "style": "default",
+  "rsc": false,
+  "tailwind": {
+    "config": "libs/utils/src/tailwind.config.ts",
+    "css": "libs/utils/src/global.css",
+    "baseColor": "neutral",
+    "cssVariables": true
+  },
+  "aliases": {
+    "ui": "@vittav-repos/core-ui",
+    "components": "@vittav-repos/core-ui/components",
+    "utils": "@vittav-repos/utils",
+    "hooks": "@vittav-repos/core-ui/hooks"
+  }
+}
