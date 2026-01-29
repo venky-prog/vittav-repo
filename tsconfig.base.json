@@ -22,5 +22,11 @@
       "@vittav-repos/source"
     ],
     "baseUrl": ".",
+    "paths": {
+      "@vittav-repos/core-ui": ["libs/core-ui/src"],
+      "@vittav-repos/utils": ["libs/utils/src"],
+      "@vittav-repos/core-ui/hooks": ["libs/core-ui/src/hooks"],
+      "@vittav-repos/core-ui/components": ["libs/core-ui/src/components"]
+    }
   }
 }

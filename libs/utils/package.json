@@ -1,5 +1,5 @@
 {
-  "name": "@vittav/core-ui",
+  "name": "@vittav-repos/utils",
   "version": "0.0.1",
   "main": "./src/index.ts",
   "types": "./src/index.ts",
@@ -9,9 +9,7 @@
       "import": "./src/index.ts",
       "default": "./src/index.ts"
     },
+    "./global.css": "./src/global.css",
     "./package.json": "./package.json"
-  },
-  "dependencies": {
-    "@vittav-repos/utils": "workspace:*"
   }
 }

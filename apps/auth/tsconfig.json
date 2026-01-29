@@ -19,9 +19,9 @@
     "paths": {
       "@/*": ["./src/*"]
     },
+    "baseUrl": ".",
     "types": ["jest", "node"],
     "outDir": "dist",
-    "rootDir": "src",
     "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo"
   },
   "include": [
@@ -47,6 +47,9 @@
     "eslint.config.mjs"
   ],
   "references": [
+    {
+      "path": "../../libs/utils"
+    },
     {
       "path": "../../libs/core-ui"
     }

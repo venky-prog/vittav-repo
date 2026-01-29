@@ -8,6 +8,9 @@
     },
     {
       "path": "./libs/core-ui"
+    },
+    {
+      "path": "./libs/utils"
     }
   ]
 }

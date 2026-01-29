@@ -1,4 +1,5 @@
-import {VittavCoreUi} from '@vittav/core-ui';
+import {Button} from '@vittav/core-ui';
+import {Demo} from '@/components/demo';
 
 export default function Index() {
   /*
@@ -8,7 +9,8 @@ export default function Index() {
    */
   return (
     <div className="py-12">
-      <VittavCoreUi />
+      <Button>Click me</Button>
+      <Demo />
     </div>
   );
 }

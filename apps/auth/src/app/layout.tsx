@@ -1,4 +1,4 @@
-import './global.css';
+import '@vittav-repos/utils/global.css';
 
 export const metadata = {
   title: 'Welcome to ',
