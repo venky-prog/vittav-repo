@@ -10,8 +10,8 @@
   },
   "aliases": {
     "ui": "@vittav-repos/core-ui",
-    "components": "@vittav-repos/core-ui/components",
+    "components": "@/",
     "utils": "@vittav-repos/utils",
-    "hooks": "@vittav-repos/core-ui/hooks"
+    "hooks": "@/hooks"
   }
 }
