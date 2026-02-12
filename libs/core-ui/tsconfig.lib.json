@@ -14,7 +14,7 @@
     "jsx": "react-jsx",
     "baseUrl": ".",
     "paths": {
-      "@/core-ui*": ["./src/*"]
+      "@/core-ui/*": ["./src/*"]
     },
     "tsBuildInfoFile": "dist/tsconfig.lib.tsbuildinfo"
   },

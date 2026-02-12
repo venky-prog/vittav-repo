@@ -1,0 +1,49 @@
+- name: Set timezone
+  timezone:
+    name: "{{ timezone }}"
+
+- name: Create deployer user
+  user:
+    name: "{{ base_user }}"
+    shell: /bin/bash
+    groups: sudo
+    append: yes
+    create_home: yes
+
+- name: Create .ssh directory
+  file:
+    path: "/home/{{ base_user }}/.ssh"
+    state: directory
+    owner: "{{ base_user }}"
+    group: "{{ base_user }}"
+    mode: "0700"
+
+- name: Add SSH key to deployer
+  authorized_key:
+    user: "{{ base_user }}"
+    state: present
+    key: "{{ lookup('file', ssh_public_key_path) }}"
+
+- name: Disable password authentication
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^#?PasswordAuthentication"
+    line: "PasswordAuthentication no"
+  notify: Restart SSH
+
+- name: Disable root login
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^#?PermitRootLogin"
+    line: "PermitRootLogin no"
+  notify: Restart SSH
+
+- name: Allow OpenSSH in UFW
+  ufw:
+    rule: allow
+    name: OpenSSH
+
+- name: Enable UFW
+  ufw:
+    state: enabled
+    policy: deny

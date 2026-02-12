@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 import { FormBuilder } from '../components/form-builder/form-builder';
 

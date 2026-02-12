@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   Controller as HookController,
   ControllerProps,
@@ -7,6 +8,7 @@ import {
 import { TextField } from './text-field';
 import { CheckboxField } from './checkbox';
 import { DateField } from './date-field';
+import { SelectField } from './select-field';
 
 type ControllerExtraProps = {
   info?: string;
@@ -24,6 +26,11 @@ type ControllerFieldType =
   | {
       type: 'date';
       label: string;
+    }
+  | {
+      type: 'select';
+      label: string;
+      options: Array<{ label: string; value: string }>;
     };
 
 export function Controller<
@@ -70,6 +77,17 @@ export function Controller<
               info={props.info}
             />
           );
+        } else if (props.type === 'select') {
+          return (
+            <SelectField
+              name={props.name}
+              label={props.label}
+              field={field}
+              fieldState={fieldState}
+              info={props.info}
+              options={props.options}
+            />
+          )
         }
         return <div />;
       }}

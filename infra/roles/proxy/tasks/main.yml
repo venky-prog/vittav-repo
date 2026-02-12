@@ -1,0 +1,50 @@
+- name: Create docker network for proxy
+  docker_network:
+    name: "{{ proxy_network }}"
+
+- name: Allow HTTP
+  ufw:
+    rule: allow
+    port: "80"
+    proto: tcp
+
+- name: Allow HTTPS
+  ufw:
+    rule: allow
+    port: "443"
+    proto: tcp
+
+- name: Create letsencrypt directory
+  file:
+    path: /opt/traefik/letsencrypt
+    state: directory
+    owner: deployer
+    group: deployer
+    mode: "0700"
+
+- name: Create acme.json file
+  file:
+    path: /opt/traefik/letsencrypt/acme.json
+    state: touch
+    owner: deployer
+    group: deployer
+    mode: "0600"
+
+- name: Create traefik directory
+  file:
+    path: /opt/traefik
+    state: directory
+    owner: deployer
+    group: deployer
+
+- name: Deploy Traefik compose file
+  template:
+    src: traefik.yml.j2
+    dest: /opt/traefik/docker-compose.yml
+    owner: deployer
+    group: deployer
+
+- name: Start Traefik
+  community.docker.docker_compose_v2:
+    project_src: /opt/traefik
+    state: present

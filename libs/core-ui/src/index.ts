@@ -7,7 +7,9 @@ export * from './card';
 export * from './checkbox';
 export * from './core-ui'
 export * from './controller';
+export * from './drawer';
 export * from './field';
+export * from './item';
 export * from './input';
 export * from './label';
 export * from './popover'

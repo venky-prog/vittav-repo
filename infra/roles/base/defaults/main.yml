@@ -1,0 +1,3 @@
+base_user: deployer
+timezone: Asia/Kolkata
+ssh_public_key_path: "~/.ssh/my-vps.pub"
