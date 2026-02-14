@@ -1,0 +1,7 @@
+registry_http_secret: 'JV4ILuIFJcnVNggH9/k82/e3rLkQtLqY40SJdjsTLQI='
+registry_host: 'registry.falcon-head.org'
+registry_ui_host: 'registry-ui.falcon-head.org'
+network_name: 'web'
+registry_data_path: '/opt/registry/data'
+registry_auth_path: '/opt/registry/auth'
+registry_compose_path: '/opt/registry'

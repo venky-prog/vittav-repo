@@ -1,2 +1,6 @@
 proxy_network: web
 proxy_email: morlavenkatesh19@gmail.com
+certificate_notify_email: morlavenkatesh19@gmail.com
+hostname: falcon-head.org
+traefik_password_hash: $$apr1$1PGtj8W/$$lXo9/nemBlhwZkDsKNYnc1
+

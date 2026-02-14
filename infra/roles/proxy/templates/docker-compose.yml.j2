@@ -1,0 +1,34 @@
+services:
+  traefik:
+    image: traefik:v3.6
+    container_name: traefik-proxy-server
+    command:
+      - "--api.insecure=false"
+      - "--providers.docker=true"
+      - "--entrypoints.web.address=:80"
+      - "--configFile=/opt/traefik/traefik.yml"
+      - "--certificatesresolvers.le.acme.httpchallenge.entrypoint=web"
+      - "--certificatesresolvers.le.acme.email={{ certificate_notify_email }}"
+      - "--certificatesresolvers.le.acme.storage=/opt/traefik/letsencrypt/acme.json"
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /opt/traefik/traefik.yml:/opt/traefik/traefik.yml
+      - /opt/traefik/letsencrypt:/opt/traefik/letsencrypt
+    restart: unless-stopped
+    networks:
+      - {{ proxy_network }}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik.rule=Host(`traefik.{{ hostname }}`)"
+      - "traefik.http.routers.traefik.entrypoints=websecure"
+      - "traefik.http.routers.traefik.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.traefik.service=api@internal"
+      - "traefik.http.middlewares.dashboard-auth.basicauth.users=admin:{{ traefik_password_hash }}"
+      - "traefik.http.routers.traefik.middlewares=dashboard-auth"
+networks:
+    {{ proxy_network }}:
+      external: true

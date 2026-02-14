@@ -1,0 +1,35 @@
+- name: Ensure registry auth directory exists
+  file:
+    path: "{{ registry_auth_path }}"
+    state: directory
+    mode: "0755"
+
+- name: Install apache2-utils (htpasswd)
+  apt:
+    name: apache2-utils
+    state: present
+    update_cache: yes
+
+- name: Create htpasswd file for registry authentication
+  command: htpasswd -bBc {{ registry_auth_path }}/htpasswd {{ registry_username }} {{ registry_password }}
+  args:
+    creates: "{{ registry_auth_path }}/htpasswd"
+
+- name: Ensure registry base directory exists
+  file:
+    path: /opt/registry
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: Deploy registry docker-compose file
+  template:
+    src: docker-compose.yml.j2
+    dest: "{{ registry_compose_path }}/docker-compose.yml"
+    mode: "0644"
+
+- name: Start registry stack
+  community.docker.docker_compose_v2:
+    project_src: "{{ registry_compose_path }}"
+    state: present
