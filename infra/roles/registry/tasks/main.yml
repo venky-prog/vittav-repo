@@ -12,7 +12,7 @@
 
 - name: Create htpasswd file for registry authentication
   community.general.htpasswd:
-    path: "{{ registry_auth_path }}/htpasswd"
+    path: "{{ registry_auth_path }}/.htpasswd"
     name: "{{ registry_username }}"
     password: "{{ registry_password }}"
     crypt_scheme: bcrypt

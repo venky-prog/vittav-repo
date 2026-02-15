@@ -21,6 +21,14 @@
     owner: deployer
     group: deployer
 
+- name: Create .htpasswd file for Traefik dashboard authentication
+  community.general.htpasswd:
+    path: /opt/traefik/.htpasswd
+    name: "{{ traefik_username }}"
+    password: "{{ traefik_password }}"
+    crypt_scheme: bcrypt
+  become: true
+
 - name: Create letsencrypt directory
   file:
     path: /opt/traefik/letsencrypt

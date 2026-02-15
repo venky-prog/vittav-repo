@@ -18,6 +18,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - /opt/traefik/traefik.yml:/opt/traefik/traefik.yml
       - /opt/traefik/letsencrypt:/opt/traefik/letsencrypt
+      - /opt/traefik/.htpasswd:/opt/traefik/.htpasswd
     restart: unless-stopped
     networks:
       - {{ proxy_network }}
@@ -27,7 +28,7 @@ services:
       - "traefik.http.routers.traefik.entrypoints=websecure"
       - "traefik.http.routers.traefik.tls.certresolver=letsencrypt"
       - "traefik.http.routers.traefik.service=api@internal"
-      - "traefik.http.middlewares.dashboard-auth.basicauth.users=admin:{{ traefik_password_hash }}"
+      - "traefik.http.middlewares.dashboard-auth.basicauth.usersFile=/opt/traefik/.htpasswd"
       - "traefik.http.routers.traefik.middlewares=dashboard-auth"
 networks:
     {{ proxy_network }}:
