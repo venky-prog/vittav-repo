@@ -11,9 +11,11 @@
     update_cache: yes
 
 - name: Create htpasswd file for registry authentication
-  command: htpasswd -bBc {{ registry_auth_path }}/htpasswd {{ registry_username }} {{ registry_password }}
-  args:
-    creates: "{{ registry_auth_path }}/htpasswd"
+  community.general.htpasswd:
+    path: "{{ registry_auth_path }}/htpasswd"
+    name: "{{ registry_username }}"
+    password: "{{ registry_password }}"
+    crypt_scheme: bcrypt
 
 - name: Ensure registry base directory exists
   file:
