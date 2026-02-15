@@ -2,7 +2,7 @@
 
 import { useSortable } from '@dnd-kit/sortable';
 import {CSS} from '@dnd-kit/utilities'
-import { Button } from 'libs/core-ui/src';
+import { Button } from '@vittav/core-ui';
 import { CircleXIcon, GripHorizontalIcon } from 'lucide-react';
 import React from 'react';
 
