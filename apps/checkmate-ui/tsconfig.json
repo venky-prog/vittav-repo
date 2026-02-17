@@ -17,7 +17,6 @@
       }
     ],
     "paths": {
-      "@/core-ui/*": ["./../../libs/core-ui/src/*"],
       "@/*": ["./src/*"]
     },
     "types": ["jest", "node"],
