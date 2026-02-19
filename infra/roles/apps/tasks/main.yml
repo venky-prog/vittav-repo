@@ -1,0 +1,15 @@
+- name: Check if pr compose folder exists
+  file:
+    path: "/opt/apps/pr-env"
+    state: directory
+    owner: deployer
+    group: deployer
+    mode: "0755"
+
+- name: Deploy PR environment compose file
+  template:
+    src: next-app/pr-env.docker-compose.yml.j2
+    dest: "/opt/apps/pr-env/docker-compose.yml"
+    owner: deployer
+    group: deployer
+    mode: "0600"

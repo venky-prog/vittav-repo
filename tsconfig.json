@@ -16,9 +16,6 @@
       "path": "./apps/checkmate-ui"
     },
     {
-      "path": "./apps/checkmate-apis-e2e"
-    },
-    {
       "path": "./apps/checkmate-apis"
     }
   ]

@@ -1,0 +1,17 @@
+services:
+  app:
+    image: {{ registry_sub_domain }}.{{ domain }}/${APP_NAME}:${PR_NUMBER}
+    container_name: ${APP_NAME}-pr-${PR_NUMBER}
+    restart: always
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.${APP_NAME}-pr-${PR_NUMBER}.rule=Host(`${APP_NAME}-pr-${PR_NUMBER}.{{ domain }}`)"
+      - "traefik.http.routers.${APP_NAME}-pr-${PR_NUMBER}.entrypoints=websecure"
+      - "traefik.http.routers.${APP_NAME}-pr-${PR_NUMBER}.tls.certresolver=letsencrypt"
+      - "traefik.http.services.${APP_NAME}-pr-${PR_NUMBER}.loadbalancer.server.port=3000"
+    networks:
+      - {{ network_name }}
+
+networks:
+  {{ network_name }}:
+    external: true
