@@ -9,6 +9,9 @@ jobs:
   lint:
     runs-on: ubuntu-latest
 
+    outputs:
+      apps: ${{ steps.set-matrix.outputs.apps }}
+
     steps:
       - uses: actions/checkout@v4
         with:
@@ -20,7 +23,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 24
+          node-version: 20
           cache: 'pnpm'
 
       - run: pnpm install --frozen-lockfile
@@ -32,15 +35,23 @@ jobs:
         id: set-matrix
         run: |
           affected=$(pnpm nx show projects --affected --type=app --json --base=origin/main --head=HEAD)
+
+          # If empty, return empty array instead of blank
+          if [ -z "$affected" ]; then
+            affected="[]"
+          fi
+
           echo "apps=$affected" >> $GITHUB_OUTPUT
 
 
   check:
     needs: lint
+    if: ${{ needs.lint.outputs.apps != '[]' }}   # 👈 prevents empty matrix crash
     runs-on: ubuntu-latest
     strategy:
       matrix:
         app: ${{ fromJson(needs.lint.outputs.apps) }}
+
     steps:
       - uses: actions/checkout@v4
         with:
@@ -52,10 +63,10 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 24
+          node-version: 20
           cache: 'pnpm'
 
       - run: pnpm install --frozen-lockfile
 
-      - name: Matrix lint
+      - name: Matrix build
         run: pnpm nx build ${{ matrix.app }}
