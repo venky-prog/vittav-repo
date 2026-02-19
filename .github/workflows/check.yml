@@ -27,6 +27,8 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
+      - run: sudo apt-get update && sudo apt-get install -y jq
+
       - name: Get affected production apps
         id: set-matrix
         run: |
@@ -34,7 +36,7 @@ jobs:
           echo "Raw apps: $apps"
           filtered=$(echo "$apps" | jq '[.[] | select(contains("-e2e") | not)]')
           echo "Affected apps: $filtered"
-          echo "apps=$filtered" >> $GITHUB_OUTPUT
+          echo "apps=$filtered">>$GITHUB_OUTPUT
 
   check:
     needs: lint
