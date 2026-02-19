@@ -31,6 +31,7 @@ jobs:
         id: set-matrix
         run: |
           apps=$(pnpm nx show projects --affected --type=app --json)
+          echo "Raw apps: $apps"
           filtered=$(echo "$apps" | jq '[.[] | select(contains("-e2e") | not)]')
           echo "Affected apps: $filtered"
           echo "apps=$filtered" >> $GITHUB_OUTPUT
