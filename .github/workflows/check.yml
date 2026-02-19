@@ -8,8 +8,6 @@ on:
 jobs:
   lint:
     runs-on: ubuntu-latest
-    outputs:
-      apps: ${{ steps.set-matrix.outputs.apps }}
 
     steps:
       - uses: actions/checkout@v4
@@ -31,9 +29,7 @@ jobs:
 
       - name: Get affected production apps
         id: set-matrix
-        run: |
-          apps=$(pnpm nx show projects --affected --type=app --json)
-          echo "Raw apps: $apps"
+        run: pnpm nx show projects --affected --type=app --json
 
   # check:
   #   needs: lint
