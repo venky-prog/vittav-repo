@@ -32,7 +32,6 @@ jobs:
         id: set-matrix
         run: |
           affected=$(pnpm nx show projects --affected --type=app --json --base=origin/main --head=HEAD)
-          echo "Affected apps: $affected"
           echo "apps=$affected" >> $GITHUB_OUTPUT
 
 
