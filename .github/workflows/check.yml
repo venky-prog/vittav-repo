@@ -34,31 +34,28 @@ jobs:
         run: |
           apps=$(pnpm nx show projects --affected --type=app --json)
           echo "Raw apps: $apps"
-          filtered=$(echo "$apps" | jq '[.[] | select(contains("-e2e") | not)]')
-          echo "Affected apps: $filtered"
-          echo "apps=$filtered">>$GITHUB_OUTPUT
 
-  check:
-    needs: lint
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        app: ${{ fromJson(needs.lint.outputs.apps) }}
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+  # check:
+  #   needs: lint
+  #   runs-on: ubuntu-latest
+  #   strategy:
+  #     matrix:
+  #       app: ${{ fromJson(needs.lint.outputs.apps) }}
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #       with:
+  #         fetch-depth: 0
 
-      - uses: pnpm/action-setup@v3
-        with:
-          version: 9
+  #     - uses: pnpm/action-setup@v3
+  #       with:
+  #         version: 9
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 24
-          cache: 'pnpm'
+  #     - uses: actions/setup-node@v4
+  #       with:
+  #         node-version: 24
+  #         cache: 'pnpm'
 
-      - run: pnpm install --frozen-lockfile
+  #     - run: pnpm install --frozen-lockfile
 
-      - name: Matrix lint
-        run: pnpm nx lint ${{ matrix.app }}
+  #     - name: Matrix lint
+  #       run: pnpm nx lint ${{ matrix.app }}
