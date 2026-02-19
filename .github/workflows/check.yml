@@ -8,8 +8,6 @@ on:
 jobs:
   lint:
     runs-on: ubuntu-latest
-    outputs:
-      apps: ${{ steps.set-matrix.outputs.apps }}
 
     steps:
       - uses: actions/checkout@v4
@@ -27,15 +25,15 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      - run: sudo apt-get update && sudo apt-get install -y jq
+      - name: Check all linting
+        run: pnpm nx affected --target=lint --base=origin/main --head=HEAD
 
       - name: Get affected production apps
         id: set-matrix
         run: |
-          apps=$(pnpm nx show projects --affected --type=app --json --base=origin/main --head=HEAD \
-            | jq -c '[.[] | select(.tags | index("production")) | .name]')
-          echo "Raw apps: $apps"
-          echo "apps=$apps" >> $GITHUB_OUTPUT
+          affected=$(pnpm nx show projects --affected --type=app --json --base=origin/main --head=HEAD)
+          echo "Affected apps: $affected"
+          echo "apps=$affected" >> $GITHUB_OUTPUT
 
 
   check:
@@ -61,4 +59,4 @@ jobs:
       - run: pnpm install --frozen-lockfile
 
       - name: Matrix lint
-        run: pnpm nx lint ${{ matrix.app }}
+        run: pnpm nx build ${{ matrix.app }}
