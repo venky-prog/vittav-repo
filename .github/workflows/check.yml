@@ -8,6 +8,8 @@ on:
 jobs:
   lint:
     runs-on: ubuntu-latest
+    outputs:
+      apps: ${{ steps.set-matrix.outputs.apps }}
 
     steps:
       - uses: actions/checkout@v4
@@ -28,30 +30,32 @@ jobs:
       - name: Get affected production apps
         id: set-matrix
         run: |
-          apps=$(pnpm nx show projects --affected --json)
+          apps=$(pnpm nx show projects --affected --type=app --json)
           filtered=$(echo "$apps" | jq '[.[] | select(contains("-e2e") | not)]')
+          echo "Affected apps: $filtered"
+          echo "apps=$filtered" >> $GITHUB_OUTPUT
 
-          echo "apps<<EOF" >> "$GITHUB_OUTPUT"
-          echo "$filtered" >> "$GITHUB_OUTPUT"
-          echo "EOF" >> "$GITHUB_OUTPUT"
+  check:
+    needs: lint
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        app: ${{ fromJson(needs.lint.outputs.apps) }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      - name: Run lint checks
-        if: steps.set-matrix.outputs.apps != '[]'
-        run: |
-          echo "Running lint checks for affected apps: ${{ steps.set-matrix.outputs.apps }}"
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 9
 
-      - name: No affected apps
-        if: steps.set-matrix.outputs.apps == '[]'
-        run: echo "No affected production apps found. Skipping lint checks."
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: 'pnpm'
 
-      - name: Lint affected apps
-        if: steps.set-matrix.outputs.apps != '[]'
-        run: |
-          apps=$(echo "${{ steps.set-matrix.outputs.apps }}" | jq -r '.[]')
-          for app in $apps; do
-            echo "Linting $app..."
-            pnpm nx lint "$app"
-          done
+      - run: pnpm install --frozen-lockfile
 
-
-
+      - name: Matrix lint
+        run: pnpm nx lint ${{ matrix.app }}
