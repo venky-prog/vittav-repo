@@ -389,8 +389,6 @@ importers:
         specifier: ^11.0.0
         version: 11.1.14(@nestjs/common@11.1.14(reflect-metadata@0.1.14)(rxjs@7.8.2))(@nestjs/core@11.1.14)(@nestjs/platform-express@11.1.14)
 
-  apps/checkmate-apis-e2e: {}
-
   apps/checkmate-ui:
     dependencies:
       '@vittav-repos/utils':
