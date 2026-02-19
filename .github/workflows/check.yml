@@ -29,7 +29,7 @@ jobs:
 
       - name: Get affected production apps
         id: set-matrix
-        run: pnpm nx show projects --affected --type=app --json
+        run: pnpm nx show projects --affected  --type=app --json  --base=origin/main
 
   # check:
   #   needs: lint
