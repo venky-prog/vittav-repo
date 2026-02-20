@@ -6,7 +6,7 @@ on:
     types: [opened, synchronize, reopened]
 
 jobs:
-  lint:
+  lint-check:
     runs-on: ubuntu-latest
 
     outputs:
@@ -23,7 +23,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
           cache: 'pnpm'
 
       - run: pnpm install --frozen-lockfile
@@ -31,27 +31,11 @@ jobs:
       - name: Check all linting
         run: pnpm nx affected --target=lint --base=origin/main --head=HEAD
 
-      - name: Get affected production apps
-        id: set-matrix
-        run: |
-          affected=$(pnpm nx show projects --affected --type=app --json --base=origin/main --head=HEAD)
-
-          # If empty, return empty array instead of blank
-          if [ -z "$affected" ]; then
-            affected="[]"
-          fi
-
-          echo "apps=$affected" >> $GITHUB_OUTPUT
-
-
-  check:
-    needs: lint
-    if: ${{ needs.lint.outputs.apps != '[]' }}   # 👈 prevents empty matrix crash
+  frontend-build:
+    needs: lint-check
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        app: ${{ fromJson(needs.lint.outputs.apps) }}
-
+    outputs:
+      apps: ${{ steps.get-nextjs-apps.outputs.apps }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -63,10 +47,44 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
           cache: 'pnpm'
 
       - run: pnpm install --frozen-lockfile
 
-      - name: Matrix build
+      - name: Get affected production apps
+        id: get-nextjs-apps
+        run: |
+          affected=$(pnpm nx show projects --affected --projects=tag:framework:nextjs --json --base=origin/main --head=HEAD)
+
+          # If empty, return empty array instead of blank
+          if [ -z "$affected" ]; then
+            affected="[]"
+          fi
+
+          echo "apps=$affected" >> $GITHUB_OUTPUT
+
+  build-frontend-apps:
+    needs: frontend-build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        app: ${{ fromJson(needs.frontend-build.outputs.apps) }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: 'pnpm'
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Build affected Next.js app
         run: pnpm nx build ${{ matrix.app }} --skip-nx-cache

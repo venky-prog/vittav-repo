@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "nx": {
-    "tags": ["node-app", "app"],
+    "tags": ["type:app", "framework:nestjs"],
     "targets": {
       "build": {
         "executor": "nx:run-commands",
