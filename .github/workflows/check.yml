@@ -86,5 +86,24 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
+      - name: Login to Docker registry
+        uses: docker/login-action@v3
+        with:
+          registry: registry.falcon-head.org
+          username: ${{ vars.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
       - name: Build affected Next.js app
         run: pnpm nx build ${{ matrix.app }} --skip-nx-cache
+
+      - name: Extract app name
+        id: extract
+        run: |
+          RAW="${{ matrix.app }}"
+          APP_NAME="${RAW##*/}"
+          echo "app_name=$APP_NAME" >> $GITHUB_OUTPUT
+
+      - name: Build and push Docker image
+        run: |
+          docker build -t registry.falcon-head.org/${{ steps.extract.outputs.app_name }}:${{ github.event.pull_request.number }} -f ./infra/Dockerfiles/NextApp.Dockerfile --build-arg APP_NAME=${{ steps.extract.outputs.app_name }} .
+          docker push registry.falcon-head.org/${{ steps.extract.outputs.app_name }}:${{ github.event.pull_request.number }}
