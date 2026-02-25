@@ -1,10 +1,8 @@
+name: connection ssh
 on:
-  push:
-    branches:
-      - main
   pull_request:
-    branches:
-      - main
+    branches: [main]
+    types: [opened, synchronize, reopened]
 
 jobs:
   check:
