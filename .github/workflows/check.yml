@@ -96,14 +96,23 @@ jobs:
       - name: Build affected Next.js app
         run: pnpm nx build ${{ matrix.app }} --skip-nx-cache
 
-      - name: Extract app name
-        id: extract
-        run: |
-          RAW="${{ matrix.app }}"
-          APP_NAME="${RAW##*/}"
-          echo "app_name=$APP_NAME" >> $GITHUB_OUTPUT
+      # - name: Extract app name
+      #   id: extract
+      #   run: |
+      #     RAW="${{ matrix.app }}"
+      #     APP_NAME="${RAW##*/}"
+      #     echo "app_name=$APP_NAME" >> $GITHUB_OUTPUT
 
-      - name: Build and push Docker image
-        run: |
-          docker build -t registry.falcon-head.org/${{ steps.extract.outputs.app_name }}:${{ github.event.pull_request.number }} -f ./infra/Dockerfiles/NextApp.Dockerfile --build-arg APP_NAME=${{ steps.extract.outputs.app_name }} .
-          docker push registry.falcon-head.org/${{ steps.extract.outputs.app_name }}:${{ github.event.pull_request.number }}
+      # - name: Build and push Docker image
+      #   run: |
+      #     docker build -t registry.falcon-head.org/${{ steps.extract.outputs.app_name }}:${{ github.event.pull_request.number }} -f ./infra/Dockerfiles/NextApp.Dockerfile --build-arg APP_NAME=${{ steps.extract.outputs.app_name }} .
+      #     docker push registry.falcon-head.org/${{ steps.extract.outputs.app_name }}:${{ github.event.pull_request.number }}
+
+      - name: Execute remote SSH commands using SSH key
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ vars.SSH_HOST }}
+          username: ${{ vars.SSH_USERNAME }}
+          port: ${{ vars.PORT }}
+          key: ${{ secrets.SSH_KEY }}
+          script: whoami
