@@ -51,7 +51,11 @@
       "options": {
         "targetName": "test"
       },
-      "exclude": ["apps/checkmate-apis-e2e/**/*"]
+      "exclude": [
+        "apps/checkmate-apis-e2e/**/*",
+        "apps/checkmate-apis-e2e/**/*",
+        "apps/checkmate-apis-e2e/**/*"
+      ]
     },
     {
       "plugin": "@nx/webpack/plugin",
@@ -62,6 +66,17 @@
         "buildDepsTargetName": "build-deps",
         "watchDepsTargetName": "watch-deps",
         "serveStaticTargetName": "serve-static"
+      }
+    },
+    {
+      "plugin": "@nx/docker",
+      "options": {
+        "buildTarget": {
+          "name": "docker:build"
+        },
+        "runTarget": {
+          "name": "docker:run"
+        }
       }
     }
   ],

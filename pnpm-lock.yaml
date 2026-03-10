@@ -198,6 +198,9 @@ importers:
       '@nx-extend/shadcn-ui':
         specifier: ^6.0.2
         version: 6.1.0(@babel/traverse@7.29.0)(@nx/devkit@22.4.1(nx@22.4.1(@swc-node/register@1.9.2(@swc/core@1.5.29(@swc/helpers@0.5.18))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.5.29(@swc/helpers@0.5.18))))(@swc-node/register@1.9.2(@swc/core@1.5.29(@swc/helpers@0.5.18))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.5.29(@swc/helpers@0.5.18))(@zkochan/js-yaml@0.0.7)(eslint@9.39.2(jiti@2.6.1))(nx@22.4.1(@swc-node/register@1.9.2(@swc/core@1.5.29(@swc/helpers@0.5.18))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.5.29(@swc/helpers@0.5.18)))(react@19.2.4)(tailwindcss@4.1.18)
+      '@nx/docker':
+        specifier: 22.4.1
+        version: 22.4.1(nx@22.4.1(@swc-node/register@1.9.2(@swc/core@1.5.29(@swc/helpers@0.5.18))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.5.29(@swc/helpers@0.5.18)))
       '@nx/eslint':
         specifier: 22.4.1
         version: 22.4.1(@babel/traverse@7.29.0)(@swc-node/register@1.9.2(@swc/core@1.5.29(@swc/helpers@0.5.18))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.5.29(@swc/helpers@0.5.18))(@zkochan/js-yaml@0.0.7)(eslint@9.39.2(jiti@2.6.1))(nx@22.4.1(@swc-node/register@1.9.2(@swc/core@1.5.29(@swc/helpers@0.5.18))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.5.29(@swc/helpers@0.5.18)))
@@ -346,24 +349,6 @@ importers:
         specifier: ^5.1.4
         version: 5.1.4(webpack@5.105.2)
 
-  apps/auth:
-    dependencies:
-      '@vittav-repos/utils':
-        specifier: workspace:*
-        version: link:../../libs/utils
-      '@vittav/core-ui':
-        specifier: workspace:*
-        version: link:../../libs/core-ui
-      next:
-        specifier: ~16.0.1
-        version: 16.0.11(@babel/core@7.29.0)(babel-plugin-macros@3.1.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(sass@1.97.3)
-      react:
-        specifier: ^19.0.0
-        version: 19.2.4
-      react-dom:
-        specifier: ^19.0.0
-        version: 19.2.4(react@19.2.4)
-
   apps/checkmate-apis:
     dependencies:
       '@nestjs/common':
@@ -375,6 +360,9 @@ importers:
       '@nestjs/platform-express':
         specifier: ^11.0.0
         version: 11.1.14(@nestjs/common@11.1.14(reflect-metadata@0.1.14)(rxjs@7.8.2))(@nestjs/core@11.1.14)
+      '@vittav-repos/utils':
+        specifier: workspace:*
+        version: link:../../libs/utils
       reflect-metadata:
         specifier: ^0.1.13
         version: 0.1.14
@@ -388,6 +376,8 @@ importers:
       '@nestjs/testing':
         specifier: ^11.0.0
         version: 11.1.14(@nestjs/common@11.1.14(reflect-metadata@0.1.14)(rxjs@7.8.2))(@nestjs/core@11.1.14)(@nestjs/platform-express@11.1.14)
+
+  apps/checkmate-apis-e2e: {}
 
   apps/checkmate-ui:
     dependencies:
@@ -413,7 +403,14 @@ importers:
         specifier: workspace:*
         version: link:../utils
 
-  libs/utils: {}
+  libs/utils:
+    dependencies:
+      clsx:
+        specifier: 2.1.1
+        version: 2.1.1
+      tailwind-merge:
+        specifier: 2.6.1
+        version: 2.6.1
 
 packages:
 
