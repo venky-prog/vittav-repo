@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        app: ${{ fromJson(needs.frontend-build.outputs.apps) }}
+        app: ${{ fromJson(inputs.effectedApps) }}
     steps:
       - uses: actions/checkout@v4
         with:

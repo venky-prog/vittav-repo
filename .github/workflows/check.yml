@@ -12,6 +12,7 @@ jobs:
       base_branch: origin/main
 
   get_effected_apps:
+    needs: lint-check
     uses: ./.github/workflows/frontend-effected-apps-list.yml
     with:
       base_branch: origin/main
