@@ -70,7 +70,7 @@ jobs:
           port: ${{ vars.PORT }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            cd /opt/apps/${{ inputs.isPr && "pr-env" || inputs.releaseEnv }}
+            cd /opt/apps/${{ inputs.isPr && 'pr-env' || inputs.releaseEnv }}
 
             APP_NAME=${{ steps.extract.outputs.app_name }} \
             if [ "${{ isPr }}" ]; then
