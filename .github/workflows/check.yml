@@ -21,5 +21,5 @@ jobs:
     uses: ./.github/workflows/frontend-effected-apps-build-release.yml
     with:
         base_branch: origin/main
-        effectedApps: ${{ needs.get_effected_apps.outputs.effected_apps }}
+        effectedApps: ${{ needs.get_effected_apps.outputs.effected_apps || '[]' }}
         isPr: true
