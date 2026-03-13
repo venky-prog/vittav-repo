@@ -73,7 +73,7 @@ jobs:
             cd /opt/apps/${{ inputs.isPr && 'pr-env' || inputs.releaseEnv }}
 
             APP_NAME=${{ steps.extract.outputs.app_name }} \
-            if [ "${{ isPr }}" ]; then
+            if [ "${{ inputs.isPr }}" ]; then
               PR_NUMBER=${{ github.event.pull_request.number }} \
             fi
             docker compose up -d
