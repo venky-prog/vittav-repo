@@ -20,8 +20,8 @@ jobs:
   build_effected_apps:
     needs: get_effected_apps
     uses: ./.github/workflows/frontend-effected-apps-build-release.yml
+    secrets: inherit
     with:
         base_branch: origin/main
         effectedApps: ${{ needs.get_effected_apps.outputs.effected_apps || '[]' }}
         isPr: true
-        password: ${{ secrets.DOCKER_PASSWORD }}
