@@ -15,6 +15,9 @@ on:
       releaseEnv:
         required: false
         type: string
+    secrets:
+      DOCKER_PASSWORD:
+        required: true
 
 jobs:
   run_build:
