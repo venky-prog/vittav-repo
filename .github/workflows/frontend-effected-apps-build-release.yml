@@ -18,6 +18,8 @@ on:
     secrets:
       DOCKER_PASSWORD:
         required: true
+      SSH_KEY:
+        required: true
 
 jobs:
   run_build:
