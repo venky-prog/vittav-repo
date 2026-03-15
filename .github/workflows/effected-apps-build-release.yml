@@ -93,6 +93,6 @@ jobs:
               PR_NUMBER=${{ github.event.pull_request.number }}
             fi
 
-            APP_NAME=$APP_NAME PR_NUMBER=$PR_NUMBER docker compose pull
+            APP_NAME=$APP_NAME PR_NUMBER=$PR_NUMBER docker compose pull ${{steps.extract.outputs.app_name}}-${{ inputs.isPr && github.event.pull_request.number || inputs.releaseEnv }}
 
-            APP_NAME=$APP_NAME PR_NUMBER=$PR_NUMBER docker compose up -d
+            APP_NAME=$APP_NAME PR_NUMBER=$PR_NUMBER docker compose up -d --no-deps ${{steps.extract.outputs.app_name}}-${{ inputs.isPr && github.event.pull_request.number || inputs.releaseEnv }}
