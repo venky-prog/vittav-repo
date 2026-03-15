@@ -81,7 +81,7 @@
         }
       }
     },
-    "tags": ["type:app", "framework:nestjs"]
+    "tags": ["type:app", "framework:NestApp"]
   },
   "dependencies": {
     "@nestjs/common": "^11.0.0",

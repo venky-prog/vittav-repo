@@ -12,6 +12,9 @@ on:
       isPr:
         required: true
         type: boolean
+      app_framework:
+        required: true
+        type: string
       releaseEnv:
         required: false
         type: string
@@ -63,7 +66,7 @@ jobs:
       - name: Build and push Docker image
         id: build_and_publish
         run: |
-          docker build -t registry.falcon-head.org/${{ steps.extract.outputs.app_name }}:${{ inputs.isPr && github.event.pull_request.number || inputs.releaseEnv }} -f ./infra/Dockerfiles/NextApp.Dockerfile --build-arg APP_NAME=${{ steps.extract.outputs.app_name }} .
+          docker build -t registry.falcon-head.org/${{ steps.extract.outputs.app_name }}:${{ inputs.isPr && github.event.pull_request.number || inputs.releaseEnv }} -f ./infra/Dockerfiles/${{inputs.app_framework}}.Dockerfile --build-arg APP_NAME=${{ steps.extract.outputs.app_name }} .
           docker push registry.falcon-head.org/${{ steps.extract.outputs.app_name }}:${{ inputs.isPr && github.event.pull_request.number || inputs.releaseEnv }}
           echo "app_name=$"
 

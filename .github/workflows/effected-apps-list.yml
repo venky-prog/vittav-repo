@@ -6,6 +6,9 @@ on:
       base_branch:
         required: true
         type: string
+      app_framework:
+        required: true
+        type: string
 
     outputs:
       effected_apps:
@@ -38,7 +41,7 @@ jobs:
       - name: Get affected production apps
         id: get-nextjs-apps
         run: |
-          affected=$(pnpm nx show projects --affected --projects=tag:framework:nextjs --json --base=${{ inputs.base_branch }} --head=HEAD)
+          affected=$(pnpm nx show projects --affected --projects=tag:framework:${{ input.app_framework }} --json --base=${{ inputs.base_branch }} --head=HEAD)
 
           if [ -z "$affected" ]; then
             affected="[]"

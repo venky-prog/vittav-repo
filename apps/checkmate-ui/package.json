@@ -10,6 +10,6 @@
     "@vittav-repos/utils": "workspace:*"
   },
   "nx": {
-    "tags": ["type:app", "framework:nextjs"]
+    "tags": ["type:app", "framework:NextApp"]
   }
 }
