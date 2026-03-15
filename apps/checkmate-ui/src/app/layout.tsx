@@ -13,7 +13,7 @@ const navItems = [
     icon: <LayoutDashboard />,
   },
   {
-    label: 'Create Board',
+    label: 'Create board',
     path: '/create-board',
     icon: <PlusIcon />,
   },
