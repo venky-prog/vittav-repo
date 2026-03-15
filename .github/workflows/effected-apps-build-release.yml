@@ -84,7 +84,8 @@ jobs:
           script: |
             cd /opt/apps/${{ inputs.isPr && 'pr-env' || inputs.releaseEnv }}
 
-            echo "${{ secrets.DOCKER_PASSWORD }}" | docker login registry.falcon-head.org -u ${{ vars.DOCKER_USERNAME }} --password-stdin
+            echo "${{ secrets.DOCKER_PASSWORD }}" | docker login registry.falcon-head.org \
+            -u ${{ vars.DOCKER_USERNAME }} --password-stdin
 
             APP_NAME=${{ steps.extract.outputs.app_name }}
             PR_NUMBER="prod"
@@ -93,6 +94,9 @@ jobs:
               PR_NUMBER=${{ github.event.pull_request.number }}
             fi
 
-            SERVICE_NAME="${{ steps.extract.outputs.app_name }}-${{ inputs.isPr && github.event.pull_request.number || inputs.releaseEnv }}" APP_NAME=$APP_NAME PR_NUMBER=$PR_NUMBER docker compose pull $SERVICE_NAME
+            SERVICE_NAME="${APP_NAME}-${PR_NUMBER}"
 
-            SERVICE_NAME="${{ steps.extract.outputs.app_name }}-${{ inputs.isPr && github.event.pull_request.number || inputs.releaseEnv }}" APP_NAME=$APP_NAME PR_NUMBER=$PR_NUMBER docker compose up -d --no-deps $SERVICE_NAME
+            docker compose -p $SERVICE_NAME pull $APP_NAME
+
+            APP_NAME=$APP_NAME PR_NUMBER=$PR_NUMBER \
+            docker compose -p $SERVICE_NAME up -d --no-deps $APP_NAME
