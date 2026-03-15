@@ -80,6 +80,8 @@ jobs:
           script: |
             cd /opt/apps/${{ inputs.isPr && 'pr-env' || inputs.releaseEnv }}
 
+            docker compose pull
+
             echo "${{ secrets.DOCKER_PASSWORD }}" | docker login registry.falcon-head.org -u ${{ vars.DOCKER_USERNAME }} --password-stdin
 
             APP_NAME=${{ steps.extract.outputs.app_name }}
