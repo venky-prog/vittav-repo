@@ -13,3 +13,19 @@
     owner: deployer
     group: deployer
     mode: "0600"
+
+- name: Check if dev compose folder exists
+  file:
+    path: "/opt/apps/dev-env"
+    state: directory
+    owner: deployer
+    group: deployer
+    mode: "0755"
+
+- name: Deploy Dev environment compose file
+  template:
+    src: next-app/dev-env.docker-compose.yml.j2
+    dest: "/opt/apps/dev-env/docker-compose.yml"
+    owner: deployer
+    group: deployer
+    mode: "0600"
