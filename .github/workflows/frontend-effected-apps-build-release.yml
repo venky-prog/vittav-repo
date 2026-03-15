@@ -77,6 +77,8 @@ jobs:
           script: |
             cd /opt/apps/${{ inputs.isPr && 'pr-env' || inputs.releaseEnv }}
 
+            echo "${{ secrets.DOCKER_PASSWORD }}" | docker login registry.falcon-head.org -u ${{ vars.DOCKER_USERNAME }} --password-stdin
+
             APP_NAME=${{ steps.extract.outputs.app_name }}
             PR_NUMBER="prod"
 
