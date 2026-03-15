@@ -54,7 +54,9 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build affected Next.js app
-        run: pnpm nx build ${{ matrix.app }} --skip-nx-cache
+        run: |
+          pnpm nx build ${{ matrix.app }} --skip-nx-cache
+          pnpm nx prune ${{ matrix.app }} --skip-nx-cache
 
       - name: Extract app name
         id: extract
