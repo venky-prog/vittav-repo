@@ -97,7 +97,7 @@ jobs:
             SERVICE_NAME="${APP_NAME}-${PR_NUMBER}"
 
             APP_NAME=$APP_NAME PR_NUMBER=$PR_NUMBER \
-            docker compose -p $SERVICE_NAME pull $APP_NAME
+            docker compose -f -p $SERVICE_NAME pull $APP_NAME
 
             APP_NAME=$APP_NAME PR_NUMBER=$PR_NUMBER \
             docker compose -p $SERVICE_NAME up -d --no-deps $APP_NAME
