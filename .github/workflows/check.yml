@@ -23,13 +23,13 @@ jobs:
     uses: ./.github/workflows/effected-apps-build-release.yml
     secrets: inherit
     with:
-        base_branch: origin/main
-        effectedApps: ${{ needs.get_next_effected_apps.outputs.effected_apps || '[]' }}
-        app_framework: NextApp
-        isPr: true
+      base_branch: origin/main
+      effectedApps: ${{ needs.get_next_effected_apps.outputs.effected_apps || '[]' }}
+      app_framework: NextApp
+      isPr: true
 
   get_nest_effected_apps:
-    needs: link-check
+    needs: lint-check
     uses: ./.github/workflows/effected-apps-list.yml
     with:
       base_branch: origin/main
@@ -40,9 +40,7 @@ jobs:
     uses: ./.github/workflows/effected-apps-build-release.yml
     secrets: inherit
     with:
-        base_branch: origin/main
-        effectedApps: ${{ needs.get_nest_effected_apps.outputs.effected_apps || '[]' }}
-        app_framework: NestApp
-        isPr: true
-
-
+      base_branch: origin/main
+      effectedApps: ${{ needs.get_nest_effected_apps.outputs.effected_apps || '[]' }}
+      app_framework: NestApp
+      isPr: true
