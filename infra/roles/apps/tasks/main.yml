@@ -8,7 +8,7 @@
 
 - name: Deploy PR environment compose file
   template:
-    src: next-app/pr-env.docker-compose.yml.j2
+    src: pr-env.docker-compose.yml.j2
     dest: "/opt/apps/pr-env/docker-compose.yml"
     owner: deployer
     group: deployer
@@ -24,7 +24,7 @@
 
 - name: Deploy Dev environment compose file
   template:
-    src: next-app/dev-env.docker-compose.yml.j2
+    src: dev-env.docker-compose.yml.j2
     dest: "/opt/apps/dev-env/docker-compose.yml"
     owner: deployer
     group: deployer
