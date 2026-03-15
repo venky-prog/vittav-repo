@@ -80,8 +80,6 @@ jobs:
           script: |
             cd /opt/apps/${{ inputs.isPr && 'pr-env' || inputs.releaseEnv }}
 
-            docker compose pull
-
             echo "${{ secrets.DOCKER_PASSWORD }}" | docker login registry.falcon-head.org -u ${{ vars.DOCKER_USERNAME }} --password-stdin
 
             APP_NAME=${{ steps.extract.outputs.app_name }}
@@ -90,5 +88,7 @@ jobs:
             if [ "${{ inputs.isPr }}" = "true" ]; then
               PR_NUMBER=${{ github.event.pull_request.number }}
             fi
+
+            APP_NAME=$APP_NAME PR_NUMBER=$PR_NUMBER docker compose pull
 
             APP_NAME=$APP_NAME PR_NUMBER=$PR_NUMBER docker compose up -d
