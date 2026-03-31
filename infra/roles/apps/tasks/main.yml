@@ -6,10 +6,18 @@
     group: deployer
     mode: "0755"
 
-- name: Deploy PR environment compose file
+- name: Check if pr-template folder exists
+  file:
+    path: "/opt/apps/pr-template"
+    state: directory
+    owner: deployer
+    group: deployer
+    mode: "0755"
+
+- name: Copy pr compose to pr template
   template:
     src: pr-env.docker-compose.yml.j2
-    dest: "/opt/apps/pr-env/docker-compose.yml"
+    dest: "/opt/apps/pr-template/docker-compose.yml"
     owner: deployer
     group: deployer
     mode: "0600"
