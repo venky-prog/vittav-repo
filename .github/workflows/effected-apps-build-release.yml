@@ -82,9 +82,9 @@ jobs:
           port: ${{ vars.PORT }}
           key: ${{ secrets.SSH_KEY }}
           script: |
+            set -e  # stop on error (VERY IMPORTANT)
+
             cd /opt/apps/${{ inputs.isPr && 'pr-env' || inputs.releaseEnv }}
-
-
 
             echo "${{ secrets.DOCKER_PASSWORD }}" | docker login registry.falcon-head.org \
             -u ${{ vars.DOCKER_USERNAME }} --password-stdin
@@ -93,19 +93,22 @@ jobs:
             export PR_NUMBER="prod"
 
             if [ "${{ inputs.isPr }}" = "true" ]; then
-              if [ -d "./pr-${{ steps.extract.outputs.app_name }}/${{ github.event.pull_request.number }}"]; then
+
+              TARGET_DIR="./pr-${{ steps.extract.outputs.app_name }}/${{ github.event.pull_request.number }}"
+
+              if [ -d "$TARGET_DIR" ]; then
                 echo "Folder already exists, skipping..."
               else
-                mkdir -p "./pr-${{ steps.extract.outputs.app_name }}/${{ github.event.pull_request.number }}"
+                mkdir -p "$TARGET_DIR"
                 echo "Folder created"
               fi
 
               export PR_NUMBER=${{ github.event.pull_request.number }}
 
-              cd "./pr-${{ steps.extract.outputs.app_name }}/${{ github.event.pull_request.number }}"
-              envsubst < "/opt/apps/pr-template/docker-compose.yml" > ./docker-compose.yml
+              cd "$TARGET_DIR"
+
+              envsubst < "/opt/apps/pr-template/docker-compose.yml" > docker-compose.yml
             fi
 
             docker compose pull
-
-            docker compose up -d
+            docker compose up -d --remove-orphans
