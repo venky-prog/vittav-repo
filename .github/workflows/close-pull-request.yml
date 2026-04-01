@@ -3,6 +3,7 @@ name: Close the PR and cleanup PR environment
 on:
   pull_request:
     types: [closed]
+  workflow_dispatch:
 
 jobs:
   close-pr:
