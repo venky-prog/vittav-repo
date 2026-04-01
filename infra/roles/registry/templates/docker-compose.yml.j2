@@ -9,6 +9,7 @@ services:
       REGISTRY_AUTH_HTPASSWD_REALM: Registry Realm
       REGISTRY_AUTH_HTPASSWD_PATH: /auth/.htpasswd
       REGISTRY_HTTP_RELATIVEURLS: "true"
+      REGISTRY_STORAGE_DELETE_ENABLED: "true"
     volumes:
       - "{{ registry_data_path }}:/var/lib/registry"
       - "{{ registry_auth_path }}:/auth"
