@@ -21,12 +21,12 @@ jobs:
           port: ${{ vars.PORT }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            BASE_DIR = "/opt/apps/pr-env"
+            BASE_DIR="/opt/apps/pr-env"
 
-            find "$BASE_DIR" -mindepth 1 -maxdepth 1 type -d | while read -r folder; do
-              echo "processing $folder"
+            find "$BASE_DIR" -mindepth 1 -maxdepth 1 -type d | while IFS= read -r folder; do
+              echo "Processing $folder"
 
-              if [ -f "$folder/docker-compose.yml"]; then
+              if [ -f "$folder/docker-compose.yml" ]; then
                 echo "Stopping docker compose in $folder"
                 (cd "$folder" && docker compose down)
               fi
