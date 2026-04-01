@@ -16,7 +16,7 @@ jobs:
     uses: ./.github/workflows/effected-apps-list.yml
     with:
       base_branch: origin/main
-      app_framework: NextApp
+      tag: framework:NextApp
 
   build_next_effected_apps:
     needs: get_next_effected_apps
@@ -33,7 +33,7 @@ jobs:
     uses: ./.github/workflows/effected-apps-list.yml
     with:
       base_branch: origin/main
-      app_framework: NestApp
+      tag: framework:NestApp
 
   build_nest_effected_apps:
     needs: get_nest_effected_apps

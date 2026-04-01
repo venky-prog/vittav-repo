@@ -93,16 +93,16 @@ jobs:
             export PR_NUMBER="prod"
 
             if [ "${{ inputs.isPr }}" = "true" ]; then
-              if [ -d "./pr-${{ steps.extract.outputs.app_name }}-${{ github.event.pull_request.number }}"]; then
+              if [ -d "./pr-${{ steps.extract.outputs.app_name }}/${{ github.event.pull_request.number }}"]; then
                 echo "Folder already exists, skipping..."
               else
-                mkdir -p "./pr-${{ steps.extract.outputs.app_name }}-${{ github.event.pull_request.number }}"
+                mkdir -p "./pr-${{ steps.extract.outputs.app_name }}/${{ github.event.pull_request.number }}"
                 echo "Folder created"
               fi
 
               export PR_NUMBER=${{ github.event.pull_request.number }}
 
-              cd "./pr-${{ steps.extract.outputs.app_name }}-${{ github.event.pull_request.number }}"
+              cd "./pr-${{ steps.extract.outputs.app_name }}/${{ github.event.pull_request.number }}"
               envsubst < "/opt/apps/pr-template/docker-compose.yml" > ./docker-compose.yml
             fi
 
