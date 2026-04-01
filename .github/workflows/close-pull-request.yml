@@ -1,0 +1,11 @@
+name: Close the PR and cleanup PR environment
+
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  close-pr:
+    uses: ./.github/workflows/pr-cleanup.yml
+    secrets: inherit
+

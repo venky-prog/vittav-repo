@@ -1,0 +1,44 @@
+name: pr-cleanup
+
+on:
+  workflow_call:
+    secrets:
+      DOCKER_PASSWORD:
+        required: true
+      SSH_KEY:
+        required: true
+
+jobs:
+  clean-pr-environments:
+    name: Clean pr environments
+    runs-on: ubuntu-latest
+    steps:
+      - name: ssh to server and cleanup
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ vars.SSH_HOST }}
+          username: ${{ vars.SSH_USERNAME }}
+          port: ${{ vars.PORT }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            BASE_DIR = "/opt/apps/pr-env"
+
+            find BASE_DIR -mindepth 1 -maxdepth 1 type -d | while read -r folder; do
+              echo "processing $folder"
+
+              if [ -f "$folder/docker-compose.yml"]; then
+                echo "Stopping docker compose in $folder"
+                (cd "$folder" && docker compose down)
+              fi
+
+              echo "Deleting $folder"
+              rm -rf "$folder"
+
+              echo "Done with $folder"
+              echo "---------------------"
+            done
+
+
+
+
+
