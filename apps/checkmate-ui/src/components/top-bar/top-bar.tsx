@@ -24,7 +24,7 @@ export function TopBar(props: Readonly<TopBarProps>) {
             <MenuIcon />
           </Button>
         </div>
-        <p className="text-xl tracking-tight">Checkmate</p>
+        <p className="text-xl tracking-tight">Checkmate UI</p>
       </div>
     </header>
   );
