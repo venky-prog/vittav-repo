@@ -23,6 +23,7 @@ jobs:
   close-pr:
     uses: ./.github/workflows/pr-cleanup.yml
     secrets: inherit
+    needs: get_short_sha
     with:
-      delete_hash: ${{ steps.get_short_sha.outputs.short_sha }}
+      delete_hash: ${{ needs.get_short_sha.outputs.short_sha }}
 
