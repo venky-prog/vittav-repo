@@ -122,9 +122,12 @@ jobs:
 
             export APP_NAME=${{ steps.extract.outputs.app_name }}
             export PR_NUMBER="prod"
-            export TAG=${{ inputs.isPr && "pr-${{ github.event.pull_request.number }}-${{ steps.extract.outputs.short_sha }}" || inputs.releaseEnv }}
+            export TAG=${{ inputs.releaseEnv }}
 
             if [ "${{ inputs.isPr }}" = "true" ]; then
+
+              export TAG = pr-${{ github.event.pull_request.number }}-${{ steps.extract.outputs.short_sha }}
+              export PR_NUMBER=${{ github.event.pull_request.number }}
 
               TARGET_DIR="./pr-"
 
@@ -134,8 +137,6 @@ jobs:
                 mkdir -p "$TARGET_DIR"
                 echo "Folder created"
               fi
-
-              export PR_NUMBER=${{ github.event.pull_request.number }}
 
               cd "$TARGET_DIR"
 
