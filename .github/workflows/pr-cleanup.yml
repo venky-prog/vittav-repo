@@ -2,6 +2,10 @@ name: pr-cleanup
 
 on:
   workflow_call:
+    inputs:
+      delete_hash:
+        required: true
+        type: string
     secrets:
       DOCKER_PASSWORD:
         required: true
@@ -23,22 +27,24 @@ jobs:
           script: |
             BASE_DIR="/opt/apps/pr-env"
 
-            find "$BASE_DIR" -mindepth 1 -maxdepth 1 -type d | while IFS= read -r folder; do
-              echo "Processing $folder"
+            TARGET_DIR="$BASE_DIR/pr-${{github.event.pull_request.number }}-${{ inputs.delete_hash }}"
 
-              if [ -f "$folder/docker-compose.yml" ]; then
-                echo "Stopping docker compose in $folder"
-                (cd "$folder" && docker compose down)
-              fi
+            if [ -d "$TARGET_DIR" ]; then
+              echo "Folder exists, deleting..."
+              find "$BASE_DIR/pr-${{github.event.pull_request.number }}-${{ inputs.delete_hash }}" -mindepth 1 -maxdepth 1 -type d | while IFS= read -r folder; do
+                echo "Processing $folder"
 
-              echo "Deleting $folder"
-              rm -rf "$folder"
+                if [ -f "$folder/docker-compose.yml" ]; then
+                  echo "Stopping docker compose in $folder"
+                  (cd "$folder" && docker compose down)
+                fi
 
-              echo "Done with $folder"
-              echo "---------------------"
-            done
+                echo "Deleting $folder"
+                rm -rf "$folder"
 
-
-
-
-
+                echo "Done with $folder"
+                echo "---------------------"
+              done
+            else
+              echo "Folder does not exist, skipping..."
+              exit 0

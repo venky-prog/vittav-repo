@@ -65,15 +65,22 @@ jobs:
         run: |
           RAW="${{ matrix.app }}"
           APP_NAME="${RAW##*/}"
+
+          SHORT_SHA=$(echo "${{ github.event.pull_request.head.sha }}" | cut -c1-7)
+          PREVIOUS_COMMIT_HASH=$(git rev-parse HEAD^)
+          PREVIOUS_SHORT_SHA=$(echo "$PREVIOUS_COMMIT_HASH" | cut -c1-7)
+
+
           echo "app_name=$APP_NAME" >> $GITHUB_OUTPUT
+          echo "short_sha=$SHORT_SHA" >> $GITHUB_OUTPUT
+          echo "previous_short_sha=$PREVIOUS_SHORT_SHA" >> $GITHUB_OUTPUT
 
       - name: Build and push Docker image
         id: build_and_publish
         run: |
-          SHORT_SHA=$(echo "${{ github.event.pull_request.head.sha }}" | cut -c1-7)
 
           # Build tag: pr-<PR_NUMBER>-<SHORT_SHA>
-          TAG=pr-${{ github.event.pull_request.number }}-${SHORT_SHA}
+          TAG=pr-${{ github.event.pull_request.number }}-${{ steps.extract.outputs.short_sha }}
 
           IMAGE_NAME=registry.falcon-head.org/${{ steps.extract.outputs.app_name }}
 
@@ -93,8 +100,10 @@ jobs:
 
           docker push $IMAGE_NAME:$FINAL_TAG
 
-          echo "app_name=${{ steps.extract.outputs.app_name }}" >> $GITHUB_OUTPUT
-          echo "image_tag=$FINAL_TAG" >> $GITHUB_OUTPUT
+      - name: Delete previous PR folder on remote server (if exists)
+        uses: ./github/workflows/pr-cleanup.yml
+        with:
+          delete_hash: ${{ steps.extract.outputs.previous_short_sha }}
 
       - name: Execute remote SSH commands using SSH key
         uses: appleboy/ssh-action@v1
@@ -113,11 +122,11 @@ jobs:
 
             export APP_NAME=${{ steps.extract.outputs.app_name }}
             export PR_NUMBER="prod"
-            export TAG=${{ steps.extract.outputs.image_tag }}
+            export TAG=${{ inputs.isPr && "pr-${{ github.event.pull_request.number }}-${{ steps.extract.outputs.short_sha }}" || inputs.releaseEnv }}
 
             if [ "${{ inputs.isPr }}" = "true" ]; then
 
-              TARGET_DIR="./pr-${{ steps.extract.outputs.app_name }}/${{ github.event.pull_request.number }}-${{ steps.build_and_publish.outputs.image_tag }}"
+              TARGET_DIR="./pr-"
 
               if [ -d "$TARGET_DIR" ]; then
                 echo "Folder already exists, skipping..."
