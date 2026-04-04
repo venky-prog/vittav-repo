@@ -25,6 +25,11 @@ on:
         required: true
 
 jobs:
+  delete-old-pr-environment:
+    name: Delete old pr environment
+    if: inputs.isPr == true
+    uses: ./.github/workflows/pr-cleanup.yml
+    secrets: inherit
   run_build:
     runs-on: ubuntu-latest
     strategy:
@@ -99,11 +104,6 @@ jobs:
             --build-arg APP_NAME=${{ steps.extract.outputs.app_name }} .
 
           docker push $IMAGE_NAME:$FINAL_TAG
-
-      - name: Delete previous PR folder on remote server (if exists)
-        uses: ./github/workflows/pr-cleanup.yml
-        with:
-          delete_hash: ${{ steps.extract.outputs.previous_short_sha }}
 
       - name: Execute remote SSH commands using SSH key
         uses: appleboy/ssh-action@v1

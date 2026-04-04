@@ -6,24 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  get_short_sha:
-    runs-on: ubuntu-latest
-    outputs:
-      short_sha: ${{ steps.extract.outputs.short_sha }}
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Extract short SHA
-        id: extract
-        run: |
-          SHORT_SHA=$(echo "${{ github.event.pull_request.head.sha }}" | cut -c1-7)
-          echo "short_sha=$SHORT_SHA" >> $GITHUB_OUTPUT
   close-pr:
     uses: ./.github/workflows/pr-cleanup.yml
     secrets: inherit
-    needs: get_short_sha
-    with:
-      delete_hash: ${{ needs.get_short_sha.outputs.short_sha }}
 
