@@ -51,6 +51,8 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
+
+
       - name: Login to Docker registry
         uses: docker/login-action@v3
         with:
