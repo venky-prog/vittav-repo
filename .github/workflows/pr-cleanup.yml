@@ -2,10 +2,6 @@ name: pr-cleanup
 
 on:
   workflow_call:
-    inputs:
-      delete_hash:
-        required: true
-        type: string
     secrets:
       DOCKER_PASSWORD:
         required: true

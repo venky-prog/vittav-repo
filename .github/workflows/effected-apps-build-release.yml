@@ -25,11 +25,6 @@ on:
         required: true
 
 jobs:
-  delete-old-pr-environment:
-    name: Delete old pr environment
-    if: inputs.isPr == true
-    uses: ./.github/workflows/pr-cleanup.yml
-    secrets: inherit
   run_build:
     runs-on: ubuntu-latest
     strategy:

@@ -11,8 +11,15 @@ jobs:
     with:
       base_branch: origin/main
 
-  get_next_effected_apps:
+  delete-old-pr-environment:
+    name: Delete old pr environment
+    if: inputs.isPr == true
     needs: lint-check
+    uses: ./.github/workflows/pr-cleanup.yml
+    secrets: inherit
+
+  get_next_effected_apps:
+    needs: delete-old-pr-environment
     uses: ./.github/workflows/effected-apps-list.yml
     with:
       base_branch: origin/main
