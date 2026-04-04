@@ -22,6 +22,7 @@ jobs:
       - name: Extract previous commit hash
         id: extract
         run: |
+          set -x
           PREVIOUS_COMMIT_HASH=$(git rev-parse HEAD^)
           PREVIOUS_SHORT_SHA=$(echo "$PREVIOUS_COMMIT_HASH" | cut -c1-7)
           echo "Previous short SHA: $PREVIOUS_SHORT_SHA"
@@ -43,6 +44,7 @@ jobs:
           port: ${{ vars.PORT }}
           key: ${{ secrets.SSH_KEY }}
           script: |
+            set -x
             BASE_DIR="/opt/apps/pr-env"
 
             SHORT_SHA=${{ needs.get-previous-commit-hash.outputs.previous_short_sha }}
