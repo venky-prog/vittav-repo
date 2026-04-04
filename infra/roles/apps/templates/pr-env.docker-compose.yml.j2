@@ -1,6 +1,6 @@
 services:
   app:
-    image: {{ registry_sub_domain }}.{{ domain }}/${APP_NAME}:${PR_NUMBER}
+    image: {{ registry_sub_domain }}.{{ domain }}/${TAG}
     container_name: ${APP_NAME}-pr-${PR_NUMBER}
     restart: always
     labels:

@@ -70,9 +70,31 @@ jobs:
       - name: Build and push Docker image
         id: build_and_publish
         run: |
-          docker build -t registry.falcon-head.org/${{ steps.extract.outputs.app_name }}:${{ inputs.isPr && github.event.pull_request.number || inputs.releaseEnv }} -f ./infra/Dockerfiles/${{inputs.app_framework}}.Dockerfile --build-arg APP_NAME=${{ steps.extract.outputs.app_name }} .
-          docker push registry.falcon-head.org/${{ steps.extract.outputs.app_name }}:${{ inputs.isPr && github.event.pull_request.number || inputs.releaseEnv }}
-          echo "app_name=$"
+          SHORT_SHA=$(echo "${{ github.event.pull_request.head.sha }}" | cut -c1-7)
+
+          # Build tag: pr-<PR_NUMBER>-<SHORT_SHA>
+          TAG=pr-${{ github.event.pull_request.number }}-${SHORT_SHA}
+
+          IMAGE_NAME=registry.falcon-head.org/${{ steps.extract.outputs.app_name }}
+
+          # Decide final tag (PR vs release)
+          if [ "${{ inputs.isPr }}" = "true" ]; then
+            FINAL_TAG=$TAG
+          else
+            FINAL_TAG=${{ inputs.releaseEnv }}
+          fi
+
+          echo "Using tag: $FINAL_TAG"
+
+          docker build \
+            -t $IMAGE_NAME:$FINAL_TAG \
+            -f ./infra/Dockerfiles/${{ inputs.app_framework }}.Dockerfile \
+            --build-arg APP_NAME=${{ steps.extract.outputs.app_name }} .
+
+          docker push $IMAGE_NAME:$FINAL_TAG
+
+          echo "app_name=${{ steps.extract.outputs.app_name }}" >> $GITHUB_OUTPUT
+          echo "image_tag=$FINAL_TAG" >> $GITHUB_OUTPUT
 
       - name: Execute remote SSH commands using SSH key
         uses: appleboy/ssh-action@v1
@@ -91,10 +113,11 @@ jobs:
 
             export APP_NAME=${{ steps.extract.outputs.app_name }}
             export PR_NUMBER="prod"
+            export TAG=${{ steps.extract.outputs.image_tag }}
 
             if [ "${{ inputs.isPr }}" = "true" ]; then
 
-              TARGET_DIR="./pr-${{ steps.extract.outputs.app_name }}/${{ github.event.pull_request.number }}"
+              TARGET_DIR="./pr-${{ steps.extract.outputs.app_name }}/${{ github.event.pull_request.number }}-${{ steps.extract.outputs.image_tag }}"
 
               if [ -d "$TARGET_DIR" ]; then
                 echo "Folder already exists, skipping..."

@@ -1,6 +1,6 @@
 services:
   app:
-    image: {{ registry_sub_domain }}.{{ domain }}/${APP_NAME}:dev
+    image: {{ registry_sub_domain }}.{{ domain }}/${TAG}
     container_name: ${APP_NAME}-dev
     restart: always
     labels:
