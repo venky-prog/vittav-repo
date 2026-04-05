@@ -19,7 +19,7 @@ jobs:
         uses: ./.github/actions/setup-node-pnpm
 
       - name: Run lint check
-        run: pnpm nx affected --target=lint --parallel --max-parallel=5 --ci --base=origin/main --head=HEAD
+        run: pnpm nx affected --target=lint --parallel --max-parallel=5 --base=origin/main --head=HEAD
 
   ts-check:
     runs-on: ubuntu-latest
@@ -31,4 +31,4 @@ jobs:
         uses: ./.github/actions/setup-node-pnpm
 
       - name: Run ts check
-        run: pnpm nx affected --target=ts-check --parallel --max-parallel=5 --ci --base=origin/main --head=HEAD
+        run: pnpm nx affected --target=ts-check --parallel --max-parallel=5 --base=origin/main --head=HEAD
