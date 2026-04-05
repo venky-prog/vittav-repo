@@ -5,11 +5,6 @@ description: This workflow sets up Node.js and pnpm for use in other workflows.
 runs:
   using: "composite"
   steps:
-    - name: Checkout code
-      uses: actions/checkout@v6
-      with:
-        fetch-depth: 2
-
     - name: Setup pnpm
       uses: pnpm/action-setup@v5
       with:
