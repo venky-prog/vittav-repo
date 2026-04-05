@@ -12,6 +12,9 @@ jobs:
   lint-check:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 2
       - name: Setup node and pnpm
         uses: ./.github/actions/setup-node-pnpm
 
@@ -21,6 +24,9 @@ jobs:
   ts-check:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 2
       - name: Setup node and pnpm
         uses: ./.github/actions/setup-node-pnpm
 
