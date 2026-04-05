@@ -79,6 +79,9 @@
         "options": {
           "passWithNoTests": true
         }
+      },
+      "ts-check": {
+        "executor": "@vittav-repos/plugins:ts-check"
       }
     },
     "tags": ["type:app", "framework:NestApp"]
