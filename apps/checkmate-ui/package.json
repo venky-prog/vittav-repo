@@ -10,6 +10,12 @@
     "@vittav-repos/utils": "workspace:*"
   },
   "nx": {
-    "tags": ["type:app", "framework:NextApp"]
+    "tags": ["type:app", "framework:NextApp"],
+    "targets": {
+      "ts-check": {
+        "executor": "@vittav-repos/plugins:ts-check",
+        "options": {}
+      }
+    }
   }
 }
