@@ -1,6 +1,7 @@
 'use client';
 
 import '@vittav-repos/utils/global.css';
+
 import { Sidebar } from '../components/sidebar/sidebar';
 import { TopBar } from '../components/top-bar/top-bar';
 import { LayoutDashboard, PlusIcon } from 'lucide-react';
