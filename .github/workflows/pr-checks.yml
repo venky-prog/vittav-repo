@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Setup node and pnpm
-        uses: ./.github/workflows/actions/setup-node-pnpm.yml
+        uses: ./.github/workflows/actions/setup-node-pnpm
 
       - name: Run lint check
         run: pnpm nx affected --target=lint --parallel --max-parallel=5 --ci --base=origin/main --head=HEAD
@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Setup node and pnpm
-        uses: ./.github/workflows/actions/setup-node-pnpm.yml
+        uses: ./.github/workflows/actions/setup-node-pnpm
 
       - name: Run ts check
         run: pnpm nx affected --target=ts-check --parallel --max-parallel=5 --ci --base=origin/main --head=HEAD
