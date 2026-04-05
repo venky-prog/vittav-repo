@@ -1,3 +1,14 @@
 traefik_username: 'admin'
 registry_username: 'admin'
+network_name: 'web'
+
+# domains
+
+domain: 'falcon-head.org'
+
+registry_sub_domain: 'registry'
+registry_ui_sub_domain: 'registry-ui'
+
+traefik_dashboard_sub_domain: 'traefik'
+
 

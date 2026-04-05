@@ -1,0 +1,39 @@
+- name: Check if pr compose folder exists
+  file:
+    path: "/opt/apps/pr-env"
+    state: directory
+    owner: deployer
+    group: deployer
+    mode: "0755"
+
+- name: Check if pr-template folder exists
+  file:
+    path: "/opt/apps/pr-template"
+    state: directory
+    owner: deployer
+    group: deployer
+    mode: "0755"
+
+- name: Copy pr compose to pr template
+  template:
+    src: pr-env.docker-compose.yml.j2
+    dest: "/opt/apps/pr-template/docker-compose.yml"
+    owner: deployer
+    group: deployer
+    mode: "0600"
+
+- name: Check if dev compose folder exists
+  file:
+    path: "/opt/apps/dev-env"
+    state: directory
+    owner: deployer
+    group: deployer
+    mode: "0755"
+
+- name: Deploy Dev environment compose file
+  template:
+    src: dev-env.docker-compose.yml.j2
+    dest: "/opt/apps/dev-env/docker-compose.yml"
+    owner: deployer
+    group: deployer
+    mode: "0600"

@@ -1,11 +1,11 @@
-import { Checkbox } from '@/core-ui/checkbox';
+import { Checkbox } from '../checkbox';
 import {
   Field,
   FieldContent,
   FieldDescription,
   FieldError,
   FieldLabel,
-} from '@/core-ui/field';
+} from '../field';
 import { ControllerFieldState, ControllerRenderProps } from 'react-hook-form';
 
 type CheckboxFieldProps = {

@@ -1,6 +1,6 @@
-import { Popover, PopoverContent, PopoverTrigger } from '@/core-ui/popover';
-import { Button } from '@/core-ui/button';
-import { Calendar } from '@/core-ui/calendar';
+import { Popover, PopoverContent, PopoverTrigger } from '../popover';
+import { Button } from '../button';
+import { Calendar } from '../calendar';
 
 type DateFieldProps = {
   name: string;

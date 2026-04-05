@@ -10,7 +10,7 @@ import {
 import { DayButton, DayPicker, getDefaultClassNames } from "react-day-picker"
 
 import { cn } from "@vittav-repos/utils"
-import { Button, buttonVariants } from "@/core-ui/button"
+import { Button, buttonVariants } from "./button"
 
 function Calendar({
   className,

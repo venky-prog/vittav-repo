@@ -4,7 +4,7 @@ import '@vittav-repos/utils/global.css';
 import { Sidebar } from '../components/sidebar/sidebar';
 import { TopBar } from '../components/top-bar/top-bar';
 import { LayoutDashboard, PlusIcon } from 'lucide-react';
-import {useState} from 'react';
+import { useState } from 'react';
 
 const navItems = [
   {
@@ -13,7 +13,7 @@ const navItems = [
     icon: <LayoutDashboard />,
   },
   {
-    label: 'Create Board',
+    label: 'Create board',
     path: '/create-board',
     icon: <PlusIcon />,
   },
@@ -32,7 +32,10 @@ export default function RootLayout({
                 md:grid-cols-[240px_1fr]
                 md:grid-areas-layout"
       >
-        <TopBar onToggleClick={()=>setIsOpen(prev=>!prev)} nav={navItems} />
+        <TopBar
+          onToggleClick={() => setIsOpen((prev) => !prev)}
+          nav={navItems}
+        />
 
         <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} nav={navItems} />
 

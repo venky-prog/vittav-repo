@@ -21,6 +21,13 @@
     owner: deployer
     group: deployer
 
+- name: Install passlib dependency
+  apt:
+    name: python3-passlib
+    state: present
+    update_cache: yes
+  become: true
+
 - name: Create .htpasswd file for Traefik dashboard authentication
   community.general.htpasswd:
     path: /opt/traefik/.htpasswd

@@ -3,7 +3,7 @@ import {
   FieldDescription,
   FieldError,
   FieldLabel,
-} from '@/core-ui/field';
+} from '../field';
 import { ControllerFieldState, ControllerRenderProps } from 'react-hook-form';
 import { Input } from '../input';
 

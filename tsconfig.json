@@ -4,9 +4,6 @@
   "files": [],
   "references": [
     {
-      "path": "./apps/auth"
-    },
-    {
       "path": "./libs/core-ui"
     },
     {

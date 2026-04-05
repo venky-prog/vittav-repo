@@ -1,0 +1,17 @@
+services:
+  app:
+    image: {{ registry_sub_domain }}.{{ domain }}/${TAG}
+    container_name: ${APP_NAME}-dev
+    restart: always
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.${APP_NAME}-dev.rule=Host(`${APP_NAME}-dev.{{ domain }}`)"
+      - "traefik.http.routers.${APP_NAME}-dev.entrypoints=websecure"
+      - "traefik.http.routers.${APP_NAME}-dev.tls.certresolver=letsencrypt"
+      - "traefik.http.services.${APP_NAME}-dev.loadbalancer.server.port=3000"
+    networks:
+      - {{ network_name }}
+
+networks:
+  {{ network_name }}:
+    external: true
