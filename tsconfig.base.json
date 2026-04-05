@@ -22,6 +22,7 @@
       "@vittav-repos/source"
     ],
     "baseUrl": ".",
+    "ignoreDeprecations": "6.0",
     "paths": {
       "@vittav-repos/core-ui": ["libs/core-ui/src/index.ts"],
       "@vittav-repos/utils": ["libs/utils/src/index.ts"],

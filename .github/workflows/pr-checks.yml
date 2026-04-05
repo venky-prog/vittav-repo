@@ -25,4 +25,4 @@ jobs:
         uses: ./.github/workflows/actions/setup-node-pnpm.yml
 
       - name: Run ts check
-        run: pnpm nx affected --target=type-check --parallel --max-parallel=5 --ci --base=origin/main --head=HEAD
+        run: pnpm nx affected --target=ts-check --parallel --max-parallel=5 --ci --base=origin/main --head=HEAD
