@@ -46,7 +46,7 @@ jobs:
       - name: Get affected apps
         id: affected-apps
         run: |
-          echo "affected_apps=$(pnpm nx show projects --affected --projects=tag:app --json --base=origin/main --head=HEAD)"
+          echo "affected_apps=$(pnpm nx show projects --affected --projects=tag:type:app --json --base=origin/main --head=HEAD)"
           if [ -z "$affected_apps" ]; then
             affected_apps="[]"
           fi
