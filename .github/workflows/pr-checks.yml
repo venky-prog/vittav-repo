@@ -33,9 +33,23 @@ jobs:
       - name: Run ts check
         run: pnpm nx affected --target=ts-check --parallel --max-parallel=5 --base=origin/main --head=HEAD
 
-  get-affected-apps:
+  clean-old-pr:
     runs-on: ubuntu-latest
     needs: [lint-check, ts-check]
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Setup node and pnpm
+        uses: ./github/actions/clean-old-pr
+
+
+  get-affected-apps:
+    runs-on: ubuntu-latest
+    needs: clean-old-pr
+    outputs:
+      affected_apps: ${{ steps.affected-apps.outputs.affected_apps }}
     steps:
       - uses: actions/checkout@v6
         with:
@@ -47,11 +61,21 @@ jobs:
         id: affected-apps
         run: |
           echo "affected_apps=$(pnpm nx show projects --affected --projects=tag:type:app --json --base=origin/main --head=HEAD)"
-          if [ -z "$affected_apps" ]; then
-            affected_apps="[]"
-          fi
 
           echo "affected_apps=$affected_apps" >> $GITHUB_OUTPUT
 
-      - name: Print affected apps
-        run: echo "Affected apps:${{ steps.get-affected-apps.outputs.affected_apps }}"
+  build-and-push-affected-apps:
+    runs-on: ubuntu-latest
+    needs: get-affected-apps
+    if: needs.get-affected-apps.outputs.affected_apps != '[]'
+    strategy:
+      matrix:
+        app: ${{ fromJson(needs.get-affected-apps.outputs.affected_apps) }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - name: Setup node and pnpm
+        uses: ./.github/actions/setup-node-pnpm
+
+      - uses: ./.github/actions/build-and-push-app

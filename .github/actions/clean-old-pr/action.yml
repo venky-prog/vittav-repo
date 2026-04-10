@@ -1,0 +1,28 @@
+name: Clean Old PR
+
+description: This action cleans up old PR environments by deleting the corresponding tags.
+
+runs:
+  using: composite
+
+  steps:
+    - name: Clean old PR hash
+      id: get-old-pr-tag
+      shell: bash
+      run: |
+        old_short_sha=$(git rev-parse HEAD^)
+        old_short_sha=${old_short_sha:0:7}
+        old_pr-tag="pr-${{ github.event.pull_request.number }}-${old_short_sha}"
+        echo "old_pr_tag=$old_pr-tag" >> $GITHUB_OUTPUT
+
+    - name: Delete old PR environment
+      uses: appleboy/ssh-action@v1
+      env:
+        OLD_PR_TAG: ${{ steps.get-old-pr-tag.outputs.old_pr_tag }}
+        PR_NUMBER: ${{ github.event.pull_request.number }}
+      with:
+        host: ${{ vars.SSH_HOST }}
+        username: ${{ vars.SSH_USERNAME }}
+        port: ${{ vars.PORT }}
+        key: ${{ secrets.SSH_KEY }}
+        script_path: ../../../scripts/delete-old-pr-env.sh
