@@ -42,4 +42,4 @@ runs:
         username: ${{ inputs.ssh_username }}
         port: ${{ inputs.ssh_port }}
         key: ${{ inputs.ssh_key }}
-        script_path: ../../../scripts/delete-old-pr-env.sh
+        script_path: scripts/clean-old-pr.sh
