@@ -20,6 +20,14 @@ inputs:
 runs:
   using: composite
   steps:
+    - name: Debug - Check inputs
+      shell: bash
+      run: |
+        echo "SSH Host: ${{ inputs.ssh_host }}"
+        echo "SSH Username: ${{ inputs.ssh_username }}"
+        echo "SSH Port: ${{ inputs.ssh_port }}"
+        echo "SSH Key provided: $([ -z '${{ inputs.ssh_key }}' ] && echo 'NO' || echo 'YES')"
+
     - name: Clean old PR hash
       id: get-old-pr-tag
       shell: bash
