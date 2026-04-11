@@ -41,11 +41,8 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup node and pnpm
-        uses: ./.github/actions/setup-node-pnpm
-
       - name: Clean old PR environment
-        uses: ./github/actions/clean-old-pr
+        uses: ./.github/actions/clean-old-pr
 
 
   get-affected-apps:
