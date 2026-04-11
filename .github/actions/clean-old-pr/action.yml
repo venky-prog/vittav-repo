@@ -29,8 +29,8 @@ runs:
       run: |
         old_short_sha=$(git rev-parse HEAD^)
         old_short_sha=${old_short_sha:0:7}
-        old_pr-tag="pr-${{ github.event.pull_request.number }}-${old_short_sha}"
-        echo "old_pr_tag=$old_pr-tag" >> $GITHUB_OUTPUT
+        old_pr_tag="pr-${{ github.event.pull_request.number }}-${old_short_sha}"
+        echo "old_pr_tag=$old_pr_tag" >> $GITHUB_OUTPUT
 
     - name: Delete old PR environment
       uses: appleboy/ssh-action@v1
