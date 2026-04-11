@@ -44,9 +44,9 @@ jobs:
       - name: Clean old PR environment
         uses: ./.github/actions/clean-old-pr
         with:
-          ssh_host: ${{ secrets.SSH_HOST }}
-          ssh_username: ${{ secrets.SSH_USERNAME }}
-          ssh_port: ${{ secrets.PORT }}
+          ssh_host: ${{ vars.SSH_HOST }}
+          ssh_username: ${{ vars.SSH_USERNAME }}
+          ssh_port: ${{ vars.PORT }}
           ssh_key: ${{ secrets.SSH_KEY }}
 
 
