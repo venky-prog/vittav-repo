@@ -1,14 +1,14 @@
 import * as React from "react"
-import { Drawer as DrawerPrimitive } from "vaul"
+import { Drawer as DrawerProps } from "vaul"
+
+import * as DrawerPrimitive from '@radix-ui/react-dialog'
 
 import { cn } from "@vittav-repos/utils"
 
 const Drawer = ({
-  shouldScaleBackground = true,
   ...props
-}: React.ComponentProps<typeof DrawerPrimitive.Root>) => (
+}: React.ComponentProps<typeof DrawerProps.Root>) => (
   <DrawerPrimitive.Root
-    shouldScaleBackground={shouldScaleBackground}
     {...props}
   />
 )

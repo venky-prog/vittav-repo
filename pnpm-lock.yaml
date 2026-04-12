@@ -384,12 +384,6 @@ importers:
 
   apps/checkmate-ui:
     dependencies:
-      '@vittav-repos/utils':
-        specifier: workspace:*
-        version: link:../../libs/utils
-      '@vittav/core-ui':
-        specifier: workspace:*
-        version: link:../../libs/core-ui
       next:
         specifier: ~16.0.1
         version: 16.0.11(@babel/core@7.29.0)(babel-plugin-macros@3.1.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(sass@1.97.3)
@@ -399,9 +393,16 @@ importers:
       react-dom:
         specifier: ^19.0.0
         version: 19.2.4(react@19.2.4)
+    devDependencies:
+      '@vittav-repos/utils':
+        specifier: workspace:*
+        version: link:../../libs/utils
+      '@vittav/core-ui':
+        specifier: workspace:*
+        version: link:../../libs/core-ui
 
   libs/core-ui:
-    dependencies:
+    devDependencies:
       '@vittav-repos/utils':
         specifier: workspace:*
         version: link:../utils

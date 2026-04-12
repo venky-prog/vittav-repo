@@ -156,7 +156,7 @@ export function FormBuilder() {
           </FieldSet>
         </div>
         <Button type="submit" className="mt-4">
-          Done
+          Submit
         </Button>
       </form>
     </div>
