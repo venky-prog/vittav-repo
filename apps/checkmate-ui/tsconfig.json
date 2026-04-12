@@ -16,9 +16,6 @@
         "name": "next"
       }
     ],
-    "paths": {
-      "@/*": ["./src/*"]
-    },
     "types": ["jest", "node"],
     "outDir": "dist",
     "rootDir": "src"
@@ -42,5 +39,13 @@
     "eslint.config.js",
     "eslint.config.cjs",
     "eslint.config.mjs"
+  ],
+  "references": [
+    {
+      "path": "../../libs/utils"
+    },
+    {
+      "path": "../../libs/core-ui"
+    }
   ]
 }
