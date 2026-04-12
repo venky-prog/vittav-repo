@@ -65,8 +65,7 @@ jobs:
       - name: Get affected apps
         id: affected-apps
         run: |
-          echo "affected_apps=$(pnpm nx show projects --affected --projects=tag:type:app --json --base=origin/main --head=HEAD)"
-
+          affected_apps=$(pnpm nx show projects --affected --projects=tag:type:app --json --base=origin/main --head=HEAD)
           echo "affected_apps=$affected_apps" >> $GITHUB_OUTPUT
 
   build-and-push-affected-apps:
