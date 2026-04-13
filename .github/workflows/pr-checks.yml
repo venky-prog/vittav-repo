@@ -83,3 +83,7 @@ jobs:
         uses: ./.github/actions/setup-node-pnpm
 
       - uses: ./.github/actions/build-and-push-app
+        with:
+          registry_url: ${{ vars.DOCKER_REGISTRY }}
+          registry_username: ${{ vars.DOCKER_USERNAME }}
+          registry_password: ${{ secrets.DOCKER_PASSWORD }}
