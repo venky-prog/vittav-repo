@@ -1,0 +1,44 @@
+name: Build and Push App
+
+description: This action builds the affected apps and pushes the corresponding tags to the remote repository.
+
+inputs:
+  registry_url:
+    description: 'The URL of the Docker registry to push the image to'
+    required: true
+  registry_username:
+    description: 'The username for the Docker registry'
+    required: true
+  registry_password:
+    description: 'The password for the Docker registry'
+    required: true
+
+runs:
+  using: composite
+
+  steps:
+    - name: Login to Docker registry
+      uses: docker/login-action@v3
+      with:
+        registry: ${{ inputs.registry_url }}
+        username: ${{ inputs.registry_username }}
+        password: ${{ inputs.registry_password }}
+
+    - name: Extract app name
+      id: extract-app-name
+      shell: bash
+      run: |
+        RAW="${{ matrix.app }}"
+        APP_NAME="${RAW##*/}"
+        echo "app_name=$APP_NAME" >> $GITHUB_OUTPUT
+
+    - name: Tag and push Docker image
+      shell: bash
+      run: |
+        APP_NAME="${{ steps.extract-app-name.outputs.app_name }}"
+        TAG="pr-${{ github.event.pull_request.number }}-$(echo $GITHUB_SHA | cut -c1-7)"
+        IMAGE="${{ inputs.registry_url }}/${{ inputs.registry_username }}/$APP_NAME:$TAG"
+        docker build -t $IMAGE -f apps/$APP_NAME/Dockerfile .
+        docker push $IMAGE
+
+

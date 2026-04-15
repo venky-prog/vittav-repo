@@ -7,7 +7,6 @@
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "lib": ["dom", "dom.iterable", "esnext"],
-    "ignoreDeprecations": "6.0",
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
@@ -17,21 +16,15 @@
         "name": "next"
       }
     ],
-    "paths": {
-      "@/*": ["./src/*"],
-    },
     "types": ["jest", "node"],
     "outDir": "dist",
-    "rootDir": "src",
-    "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo"
+    "rootDir": "src"
   },
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",
     "src/**/*.js",
     "src/**/*.jsx",
-    "../../apps/checkmate-ui/.next/types/**/*.ts",
-    "../../dist/apps/checkmate-ui/.next/types/**/*.ts",
     "next-env.d.ts"
   ],
   "exclude": [
@@ -46,5 +39,13 @@
     "eslint.config.js",
     "eslint.config.cjs",
     "eslint.config.mjs"
+  ],
+  "references": [
+    {
+      "path": "../../libs/utils"
+    },
+    {
+      "path": "../../libs/core-ui"
+    }
   ]
 }
