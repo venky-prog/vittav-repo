@@ -37,7 +37,8 @@ runs:
       run: |
         APP_NAME="${{ steps.extract-app-name.outputs.app_name }}"
         TAG="pr-${{ github.event.pull_request.number }}-$(echo $GITHUB_SHA | cut -c1-7)"
-        docker build -t ${{ inputs.registry_url }}/$APP_NAME:$TAG -f apps/$APP_NAME/Dockerfile .
-        docker push ${{ inputs.registry_url }}/$APP_NAME:$TAG
+        IMAGE="${{ inputs.registry_url }}/${{ inputs.registry_username }}/$APP_NAME:$TAG"
+        docker build -t $IMAGE -f apps/$APP_NAME/Dockerfile .
+        docker push $IMAGE
 
 
